@@ -2,7 +2,7 @@ module Problems10Tests exposing (..)
 
 import Test exposing (..)
 import Expect
-import Problem1 exposing (last, secondToLast, elementAt, countElements, myReverse)
+import Problem1 exposing (last, secondToLast, elementAt, countElements, myReverse, isPalindrome)
 
 
 -- Check out https://package.elm-lang.org/packages/elm-explorations/test/latest to learn more about testing in Elm!
@@ -68,4 +68,13 @@ all =
         , test "myReverse 4" <|
             \_ ->
                 Expect.equal(myReverse [ 'a', 'b', 'c' ]) [ 'c', 'b', 'a' ]
+        , test "isPalindrome " <|
+            \_ ->
+                Expect.equal(isPalindrome []) True
+        , test "isPalindrome 1" <|
+            \_ ->
+                Expect.equal(isPalindrome [ 1, 3, 5, 8, 5, 3, 1 ]) True
+        , test "isPalindrome 2" <|
+            \_ ->
+                Expect.equal(isPalindrome [ "aab", "b", "aa" ]) False
         ]

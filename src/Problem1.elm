@@ -1,4 +1,4 @@
-module Problem1 exposing (last, secondToLast, elementAt, countElements, myReverse)
+module Problem1 exposing (last, secondToLast, elementAt, countElements, myReverse, isPalindrome)
 
 last : List a -> Maybe a
 last xs =
@@ -35,3 +35,7 @@ countElements xs = List.foldl (\_ acc -> acc + 1) 0 xs
 myReverse : List a -> List a
 myReverse list =
   List.foldl (\curr acc -> curr :: acc) [] list
+
+isPalindrome : List a -> Bool
+isPalindrome list =
+  list == List.reverse list
