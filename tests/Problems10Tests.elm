@@ -2,7 +2,7 @@ module Problems10Tests exposing (..)
 
 import Test exposing (..)
 import Expect
-import Problem1 exposing (last, secondToLast, elementAt, countElements)
+import Problem1 exposing (last, secondToLast, elementAt, countElements, myReverse)
 
 
 -- Check out https://package.elm-lang.org/packages/elm-explorations/test/latest to learn more about testing in Elm!
@@ -53,4 +53,19 @@ all =
         , test "countElements 4" <|
             \_ ->
                 Expect.equal(countElements [ 'a', 'b', 'c' ])  3
+        , test "myReverse" <|
+            \_ ->
+                Expect.equal(myReverse [1, 2, 3, 4]) [4, 3, 2, 1]
+        , test "myReverse 1" <|
+            \_ ->
+                Expect.equal(myReverse [2, 1]) [1, 2]
+        , test "myReverse 2" <|
+            \_ ->
+                Expect.equal(myReverse [1]) [1]
+        , test "myReverse 3" <|
+            \_ ->
+                Expect.equal(myReverse []) []
+        , test "myReverse 4" <|
+            \_ ->
+                Expect.equal(myReverse [ 'a', 'b', 'c' ]) [ 'c', 'b', 'a' ]
         ]

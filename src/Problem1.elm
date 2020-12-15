@@ -1,4 +1,4 @@
-module Problem1 exposing (last, secondToLast, elementAt, countElements)
+module Problem1 exposing (last, secondToLast, elementAt, countElements, myReverse)
 
 last : List a -> Maybe a
 last xs =
@@ -31,3 +31,7 @@ elementAt list n =
 
 countElements : List a -> Int
 countElements xs = List.foldl (\_ acc -> acc + 1) 0 xs
+
+myReverse : List a -> List a
+myReverse list =
+  List.foldl (\curr acc -> curr :: acc) [] list
