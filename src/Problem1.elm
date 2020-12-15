@@ -1,4 +1,4 @@
-module Problem1 exposing (last, secondToLast, elementAt)
+module Problem1 exposing (last, secondToLast, elementAt, countElements)
 
 last : List a -> Maybe a
 last xs =
@@ -18,9 +18,16 @@ secondToLast xs =
 
 
 elementAt : List a -> Int -> Maybe a
-elementAt xs index =
-  case xs of
-    [a] -> Just a
-    []  -> Maybe.Nothing
-    _ -> List.drop index xs |> List.head
+elementAt list n =
+    case list of
+        [] ->
+            Nothing
 
+        x :: xs ->
+            if n == 1 then
+                Just x
+            else
+                elementAt xs (n - 1)
+
+countElements : List a -> Int
+countElements xs = List.foldl (\_ acc -> acc + 1) 0 xs
