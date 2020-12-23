@@ -24,3 +24,30 @@ img {
   margin: 20px 0;
   max-width: 200px;
 }
+
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+}
+
+.title {
+  margin-bottom: 40px;
+}
+
+#board {
+  display: grid;
+  height: 400px;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  width: 400px;
+}
+
+.cell {
+  align-items: center;
+  background-color: indianred;
+  display: flex;
+  justify-content: center;
+}

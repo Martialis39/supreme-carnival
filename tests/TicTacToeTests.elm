@@ -2,7 +2,8 @@ module TicTacToeTests exposing (..)
 
 import Test exposing (..)
 import Expect
-import TicTacToe exposing (Cell(..), makeMove, makeComputerMove, checkForWinningState, readSquare, checkForWin)
+import Types exposing (Cell(..))
+import Utility exposing (makeMove, makeComputerMove, checkForWinningState, readSquare, checkForWin)
 import Array
 import Array exposing (Array)
 

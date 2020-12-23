@@ -1,78 +1,92 @@
-module TicTacToe exposing (Cell(..), Grid, makeMove, makeComputerMove, checkForWinningState, readSquare, checkForWin)
+module TicTacToe exposing (..)
 import Array exposing (Array)
+import Browser
+import Html exposing (..)
+import Html.Attributes exposing (..)
+--
+import Utility exposing (..)
+import Types exposing (Cell(..), Grid, Model, Msg(..))
+import RenderFunctions exposing (..)
 
-type Cell
-  = Player
-  | Opponent
-  | Empty
+-- MAIN
 
-type alias Grid = List Cell
+main : Program () Model Msg
+main =
+    Browser.sandbox
+        { init = init
+        , view = view
+        , update = update
+        }
 
-setElementAt : a -> Int -> List a -> List a
-setElementAt element index list =
-  List.take index list ++ [element] ++ List.drop (index + 1) list
+-- MODEL
 
-
-getElementAt : Int -> List a -> Maybe a
-getElementAt n list =
-    case list of
-        [] ->
-            Nothing
-
-        x :: xs ->
-            if n == 0 then
-                Just x
-            else
-                getElementAt (n - 1) xs
-
-indexOf : a -> List a -> Int -> Int
-indexOf element board offset =
-  case board of
-    [] ->
-        -1
-    x::xs ->
-      if x == element then
-        offset
-      else
-        indexOf element xs (offset + 1)
+init : Model
+init =
+    {
+      board = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
+      gameStarted = False,
+      winner = Empty,
+      playerSide = ' '
+    }
 
 
+-- Call update recursively to chain actions
+update : Msg -> Model -> Model
+update msg model =
+    case msg of
+        ChooseSide symbol ->
+          { model | playerSide = symbol }
+        UpdateBoard index ->
+          let
+              updatedBoard = setElementAt Player index model.board
+          in
+          update MakeComputerMove { model | board = updatedBoard}
 
-readSquare : Int -> Grid -> Cell
-readSquare index =
-    getElementAt index >> Maybe.withDefault Empty
+        CheckForWin ->
+          let
+              winner = checkForWin Player model.board
+          in
+          {model | winner = winner }
 
-makeMove : Int -> Cell -> Grid -> Grid
-makeMove index player board =
-  setElementAt player index board
-
-makeComputerMove : Int -> Cell -> Grid -> Grid
-makeComputerMove index computer board =
-  let
-      firstAvailableSquare = indexOf Empty board 0
-  in
-    makeMove firstAvailableSquare computer board
+        MakeComputerMove ->
+          let
+              updatedBoard = makeComputerMove Opponent model.board
+          in
+          update CheckForWin { model | board = updatedBoard}
+        a ->
+          model
 
 
-type alias WinningCombination = List Int
 
-winningCombinations : List (List Int)
-winningCombinations =
-  [
-    [1,2,3],
-    [3,4,5],
-    [6,7,8],
-    [0,3,6],
-    [1,4,7],
-    [2,5,8],
-    [0,4,8],
-    [2,4,6]
-  ]
+-- VIEW
 
-checkForWinningState : List Int -> Cell -> Grid -> Bool
-checkForWinningState combination side board =
-  List.all (\index -> (readSquare index board) == side ) combination
+view : Model -> Html Msg
+view model =
+    div
+        []
+        [ node "link"
+            [ rel "stylesheet"
+            , href "stylesheets/main.css"
+            ]
+            []
+        , section
+            [ class "container" ]
+            [
+              h1 [
+                class "title"
+              ]
+              [
+                text "Tic-Tac-Toe"
+              ]
+              , h1 [
+                class "winner"
+              ]
+              [
+                renderWinner model
+              ]
+              , renderSideChoice model
+              , renderBoard model
+            ]
+        ]
 
-checkForWin : List (List Int) -> Cell -> Grid -> Bool
-checkForWin allWinningCombinations side board =
-  List.any (\combination -> checkForWinningState combination side board) allWinningCombinations
+
