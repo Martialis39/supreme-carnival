@@ -26,7 +26,8 @@ init =
       board = [Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty],
       gameStarted = False,
       winner = Empty,
-      playerSide = ' '
+      playerSide = ' ',
+      renderModal = False
     }
 
 
@@ -45,8 +46,9 @@ update msg model =
         CheckForWin ->
           let
               winner = checkForWin Player model.board
+              showModal = if winner == Empty then False else True
           in
-          {model | winner = winner }
+          {model | winner = winner, renderModal = showModal }
 
         MakeComputerMove ->
           let
@@ -69,6 +71,7 @@ view model =
             , href "stylesheets/main.css"
             ]
             []
+        , renderModal model
         , section
             [ class "container" ]
             [
@@ -77,12 +80,6 @@ view model =
               ]
               [
                 text "Tic-Tac-Toe"
-              ]
-              , h1 [
-                class "winner"
-              ]
-              [
-                renderWinner model
               ]
               , renderSideChoice model
               , renderBoard model

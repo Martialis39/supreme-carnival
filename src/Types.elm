@@ -13,7 +13,8 @@ type alias Model =
       board : Grid,
       gameStarted : Bool,
       winner : Cell,
-      playerSide : Char
+      playerSide : Char,
+      renderModal : Bool
     }
 
 type Msg

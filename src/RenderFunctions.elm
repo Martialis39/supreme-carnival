@@ -1,8 +1,25 @@
-module RenderFunctions exposing (renderBoard, renderSquare, renderSideChoice, renderWinner)
+module RenderFunctions exposing (renderBoard, renderSquare, renderSideChoice, renderModal)
 import Types exposing (Cell(..), Grid, Model, Msg(..))
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+
+renderModal : Model -> Html Msg
+renderModal model =
+  div
+    [
+      class (if model.renderModal == True
+          then "modal"
+        else
+          "modal hide")
+    ]
+    [
+      h1
+      []
+      [
+        renderWinner model
+      ]
+    ]
 
 renderWinner : Model -> Html Msg
 renderWinner model =
